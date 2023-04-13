@@ -15,13 +15,6 @@ beforeAll(async () => {
   await cleanDb();
 });
 
-<<<<<<< HEAD
-afterAll(async () => {
-  await close();
-});
-
-=======
->>>>>>> 1818abe08e1f0c921e884b5973f9a3a397088457
 const server = supertest(app);
 
 describe('GET /enrollments', () => {
@@ -89,11 +82,7 @@ describe('GET /enrollments', () => {
 describe('GET /enrollments/cep', () => {
   it('should respond with status 200 when CEP is valid', async () => {
     const response = await server.get('/enrollments/cep?cep=04538132');
-<<<<<<< HEAD
-    const address = createAddressWithCEP();
-=======
     const address = createhAddressWithCEP();
->>>>>>> 1818abe08e1f0c921e884b5973f9a3a397088457
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body).toEqual(address);
@@ -207,11 +196,7 @@ describe('POST /enrollments', () => {
         birthday: faker.date.past().toISOString(),
         phone: '(21) 98999-9999',
         address: {
-<<<<<<< HEAD
-          cep: '00000-000',
-=======
           cep: '0',
->>>>>>> 1818abe08e1f0c921e884b5973f9a3a397088457
           street: faker.address.streetName(),
           city: faker.address.city(),
           number: faker.datatype.number().toString(),
@@ -221,11 +206,7 @@ describe('POST /enrollments', () => {
         },
       });
 
-<<<<<<< HEAD
-      it('should respond with status 400', async () => {
-=======
       it('should respond with status 400 and create new enrollment if there is not any', async () => {
->>>>>>> 1818abe08e1f0c921e884b5973f9a3a397088457
         const body = generateInvalidBody();
         const token = await generateValidToken();
 

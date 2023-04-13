@@ -9,13 +9,6 @@ beforeAll(async () => {
   await cleanDb();
 });
 
-<<<<<<< HEAD
-afterAll(async () => {
-  await close();
-});
-
-=======
->>>>>>> 1818abe08e1f0c921e884b5973f9a3a397088457
 const server = supertest(app);
 
 describe('GET /event', () => {
