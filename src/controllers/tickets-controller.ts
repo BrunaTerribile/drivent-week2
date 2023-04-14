@@ -14,8 +14,10 @@ export async function getTicketsTypes(req: AuthenticatedRequest, res: Response) 
 }
 
 export async function getUserTickets(req: AuthenticatedRequest, res: Response) {
+    const userId = req.userId
+
     try {
-        const ticket = await ticketsService.getUserTickets()
+        const ticket = await ticketsService.getUserTickets(userId)
 
         return res.status(httpStatus.OK).send(ticket);
     } catch (error) {

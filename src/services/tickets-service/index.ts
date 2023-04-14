@@ -9,8 +9,8 @@ async function getTicketsTypes() {
     return result;
 }
 
-async function getUserTickets() {
-    const result = await ticketsRepository.getTicket()
+async function getUserTickets(userId: number) {
+    const result = await ticketsRepository.getTicket(userId)
 
     return result;
 }
