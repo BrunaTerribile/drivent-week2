@@ -20,7 +20,7 @@ app
   .use('/event', eventsRouter)
   .use('/enrollments', enrollmentsRouter)
   .use('/tickets', ticketsRouter)
-  .use('/payments')
+  //.use('/payments')
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
