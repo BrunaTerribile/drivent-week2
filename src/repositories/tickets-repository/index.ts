@@ -10,9 +10,20 @@ async function getTicket(userId: number) {
   })
 }
 
+async function postTicket(ticketTypeId: number, enrollmentId: number){
+  return prisma.ticket.create({
+    data: {
+      ticketTypeId,
+      enrollmentId,
+      status: "RESERVED"
+    }
+  })
+}
+
 const ticketsRepository = {
     getTypes,
-    getTicket
+    getTicket,
+    postTicket
 };
 
 export default ticketsRepository;
