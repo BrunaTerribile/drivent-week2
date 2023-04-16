@@ -1,4 +1,5 @@
 import { prisma } from "@/config";
+import { PaymentData } from "@/services/payments-service";
 
 async function getPayments(ticketId: number) {
     return prisma.payment.findFirst({
@@ -6,8 +7,12 @@ async function getPayments(ticketId: number) {
     })
 }
 
-async function payTicket() {
-
+async function payTicket(paymentData: PaymentData) {
+    return prisma.payment.create({
+        data: {
+            paymentData
+        }
+    })
 }
 
 const paymentsRepository = {
