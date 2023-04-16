@@ -4,8 +4,10 @@ import httpStatus from "http-status";
 import paymentsService from "@/services/payments-service";
 
 export async function getPayments(req: AuthenticatedRequest, res: Response) {
+    const ticketId = Number(req.query.ticketId)
+    
     try {
-        const payments = await paymentsService.getPayments()
+        const payments = await paymentsService.getPayments(ticketId)
 
         return res.status(httpStatus.OK).send(payments);
     } catch (error) {
@@ -14,11 +16,5 @@ export async function getPayments(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function payTicket(req: AuthenticatedRequest, res: Response) {
-    try {
 
-
-        return res.status(httpStatus.OK).send();
-    } catch (error) {
-        return res.sendStatus(httpStatus.NOT_FOUND);
-    }
 }
