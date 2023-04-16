@@ -3,14 +3,15 @@ import { PaymentData } from "@/services/payments-service";
 
 async function getPayments(ticketId: number) {
     return prisma.payment.findFirst({
-        where: {ticketId}
+        where: { ticketId }
     })
 }
 
-async function payTicket(paymentData: PaymentData) {
+async function payTicket(ticketId: number, paymentData: PaymentData) {
     return prisma.payment.create({
         data: {
-            paymentData
+            ticketId,
+            ...paymentData,
         }
     })
 }
