@@ -2,10 +2,10 @@ import { Response } from "express";
 import { AuthenticatedRequest } from "@/middlewares";
 import httpStatus from "http-status";
 import paymentsService from "@/services/payments-service";
-import { Payment } from "@prisma/client";
 
 export async function getPayments(req: AuthenticatedRequest, res: Response) {
     const ticketId = Number(req.query.ticketId)
+    if(!ticketId) return res.sendStatus(httpStatus.BAD_REQUEST)
     
     try {
         const payments = await paymentsService.getPayments(ticketId)
