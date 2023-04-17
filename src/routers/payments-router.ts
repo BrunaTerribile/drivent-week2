@@ -1,5 +1,6 @@
 import { getPayments, payTicket } from "@/controllers/payments-controller";
-import { authenticateToken } from "@/middlewares";
+import { authenticateToken, validateBody } from "@/middlewares";
+import { PaymentDataSchema } from "@/schemas/payments-schemas";
 import { Router } from "express";
 
 const paymentsRouter = Router();
@@ -7,6 +8,6 @@ const paymentsRouter = Router();
 paymentsRouter
     .all('/*', authenticateToken)
     .get('/', getPayments)
-    .post('/process', payTicket)
+    .post('/process', validateBody(PaymentDataSchema), payTicket)
 
 export { paymentsRouter }
