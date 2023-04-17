@@ -11,16 +11,16 @@ async function getTicketsTypes() {
 async function getUserTickets(userId: number) {
     const enrollment = await enrollmentRepository.findWithAddressByUserId(userId)
     const result = await ticketsRepository.getTicket(enrollment.id)
-    
+
     if(!result || !enrollment) throw notFoundError();
     return result;
 }
 
 async function postTicket(ticketTypeId: number, userId: number) {
     const enrollmentData = await enrollmentRepository.findWithAddressByUserId(userId)
-    const enrollmentId = enrollmentData.id
-    
-    const result = await ticketsRepository.postTicket(ticketTypeId, enrollmentId)
+    const result = await ticketsRepository.postTicket(ticketTypeId, enrollmentData.id)
+
+    if(!result || !enrollmentData) throw notFoundError();
     return result;
 }
 
