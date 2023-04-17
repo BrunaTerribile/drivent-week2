@@ -39,6 +39,7 @@ async function payTicket(ticketId: number, cardData: CardData, userId: number) {
     }
     
     const result = await paymentsRepository.payTicket(ticketId, paymentData)
+    await ticketsRepository.updateTicketStatus(ticketId)
     return result;
 }
 

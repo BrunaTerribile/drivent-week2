@@ -36,11 +36,19 @@ async function findTicketWithTypeById(ticketId: number) {
   });
 }
 
+async function updateTicketStatus(ticketId: number) {
+  return prisma.ticket.update({
+    where: { id: ticketId },
+    data: { status: TicketStatus.PAID }
+})
+}
+
 const ticketsRepository = {
     getTypes,
     getTicket,
     postTicket,
-    findTicketWithTypeById
+    findTicketWithTypeById,
+    updateTicketStatus
 };
 
 export default ticketsRepository;
