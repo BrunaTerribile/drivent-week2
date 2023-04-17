@@ -19,7 +19,7 @@ export async function getPayments(req: AuthenticatedRequest, res: Response, next
 export async function payTicket(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     const userId = req.userId as number
     const {ticketId, cardData} = req.body
-    if(!ticketId) return res.sendStatus(httpStatus.BAD_REQUEST)
+    if(!ticketId || !cardData) return res.sendStatus(httpStatus.BAD_REQUEST)
     
     try {
         const process = await paymentsService.payTicket(ticketId, cardData, userId)

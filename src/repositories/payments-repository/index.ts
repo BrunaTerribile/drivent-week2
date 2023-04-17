@@ -1,13 +1,14 @@
 import { prisma } from "@/config";
 import { PaymentData } from "@/services/payments-service";
+import { Payment } from "@prisma/client";
 
-async function getPayments(ticketId: number) {
+async function getPayments(ticketId: number): Promise<Payment> {
     return prisma.payment.findFirst({
         where: { ticketId }
     })
 }
 
-async function payTicket(ticketId: number, paymentData: PaymentData) {
+async function payTicket(ticketId: number, paymentData: PaymentData): Promise<Payment> {
     return prisma.payment.create({
         data: {
             ticketId,
