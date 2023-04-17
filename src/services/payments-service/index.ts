@@ -1,7 +1,7 @@
 import { notFoundError } from "@/errors";
 import paymentsRepository from "@/repositories/payments-repository";
 import ticketsRepository from "@/repositories/tickets-repository";
-import { Payment, TicketType } from "@prisma/client";
+import { Payment } from "@prisma/client";
 
 async function getPayments(ticketId: number) {
     const result = await paymentsRepository.getPayments(ticketId)
