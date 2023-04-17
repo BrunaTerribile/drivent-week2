@@ -9,10 +9,12 @@ async function getPayments(ticketId: number) {
 }
 
 async function payTicket(ticketId: number, paymentData: PaymentData) {
-    await prisma.payment.create({
+    const payment = await prisma.payment.create({
         data: {
             ticketId,
-            ...paymentData,
+            value: paymentData.value,
+            cardIssuer: paymentData.cardIssuer,
+            cardLastDigits: paymentData.cardLastDigits
         }
     })
 
@@ -21,9 +23,7 @@ async function payTicket(ticketId: number, paymentData: PaymentData) {
         data: { status: TicketStatus.PAID }
     })
 
-    return prisma.payment.findFirst({
-        where: { ticketId }
-    })
+    return payment;
 }
 
 const paymentsRepository = {

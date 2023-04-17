@@ -9,7 +9,7 @@ async function getPayments(ticketId: number, userId: number) {
     if(!ticket) throw notFoundError();
 
     const enrollment = await enrollmentRepository.findWithAddressByUserId(userId)
-    if(enrollment.id != ticket.enrollmentId) throw unauthorizedError();
+    if(enrollment.id !== ticket.enrollmentId) throw unauthorizedError();
 
     const result = await paymentsRepository.getPayments(ticketId)
     return result;
@@ -25,9 +25,12 @@ export type CardData = {
     cvv: number
 }
 
-async function payTicket(ticketId: number, cardData: CardData) {
+async function payTicket(ticketId: number, cardData: CardData, userId: number) {
     const ticket = await ticketsRepository.getTicket(ticketId)
     if(!ticket) throw notFoundError();
+
+    const enrollment = await enrollmentRepository.findWithAddressByUserId(userId)
+    if(enrollment.id !== ticket.enrollmentId) throw unauthorizedError();
 
     const paymentData: PaymentData = {
         value: ticket.TicketType.price,
