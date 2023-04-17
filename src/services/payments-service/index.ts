@@ -1,15 +1,17 @@
 import { notFoundError, unauthorizedError } from "@/errors";
+import enrollmentRepository from "@/repositories/enrollment-repository";
 import paymentsRepository from "@/repositories/payments-repository";
 import ticketsRepository from "@/repositories/tickets-repository";
 import { Payment } from "@prisma/client";
 
-async function getPayments(ticketId: number) {
+async function getPayments(ticketId: number, userId: number) {
     const ticket = await ticketsRepository.findTicketWithTypeById(ticketId)
-    if(!ticket) throw unauthorizedError();
+    if(!ticket) throw notFoundError();
+
+    const enrollment = await enrollmentRepository.findWithAddressByUserId(userId)
+    if(enrollment.id != ticket.enrollmentId) throw unauthorizedError();
 
     const result = await paymentsRepository.getPayments(ticketId)
-    if(!result) throw notFoundError();
-
     return result;
 }
 
@@ -23,20 +25,17 @@ export type CardData = {
     cvv: number
 }
 
-async function payTicket(ticketId: number, cardData: CardData, userId: number) {
+async function payTicket(ticketId: number, cardData: CardData) {
     const ticket = await ticketsRepository.getTicket(ticketId)
-    if(!ticket) throw unauthorizedError();
+    if(!ticket) throw notFoundError();
 
-    const paymentData = {
+    const paymentData: PaymentData = {
         value: ticket.TicketType.price,
         cardIssuer: cardData.issuer,
         cardLastDigits: cardData.number.toString().slice(-4)
     }
     
     const result = await paymentsRepository.payTicket(ticketId, paymentData)
-    const status = await ticketsRepository.updateTicket(ticketId)
-    if(!result || !status) throw notFoundError();
-    
     return result;
 }
 
