@@ -29,10 +29,10 @@ async function payTicket(ticketId: number, cardData: CardData, userId: number) {
     const enrollment = await enrollmentRepository.findWithAddressByUserId(userId)
     if(!enrollment) throw notFoundError();
 
-    const ticket = await ticketsRepository.getUserTicket(enrollment.id)
+    const ticket = await ticketsRepository.getTicketById(ticketId)
     if(!ticket || ticket == null) throw notFoundError();
 
-    if(enrollment.id !== ticket.enrollmentId) throw unauthorizedError();
+    if(ticket.enrollmentId !== enrollment.id) throw unauthorizedError();
 
     const paymentData: PaymentData = {
         value: ticket.TicketType.price,
