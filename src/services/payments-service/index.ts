@@ -26,10 +26,12 @@ export type CardData = {
 }
 
 async function payTicket(ticketId: number, cardData: CardData, userId: number) {
-    const ticket = await ticketsRepository.getTicket(ticketId)
-    if(!ticket) throw notFoundError();
-
     const enrollment = await enrollmentRepository.findWithAddressByUserId(userId)
+    if(!enrollment) throw notFoundError();
+
+    const ticket = await ticketsRepository.getUserTicket(enrollment.id)
+    if(!ticket || ticket == null) throw notFoundError();
+
     if(enrollment.id !== ticket.enrollmentId) throw unauthorizedError();
 
     const paymentData: PaymentData = {
